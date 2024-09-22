@@ -34,8 +34,6 @@ app.use(
   })
 );
 
-app.get("/api", (c) => c.json("Hello"));
-
 // ダミーのTodo情報
 const dummyTodos = [
   {
@@ -77,11 +75,6 @@ const dummyTodos = [
 
 
 const route = app
-  .get("/api", (c) => {
-    return c.json({
-      message: "Hello",
-    });
-  })
   .get("/api/todos", (c) => {
     return c.json(dummyTodos);
   })
