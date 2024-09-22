@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => {
   return [{ title: "Todo My App" }];
 };
 
-const client = hc<AppType>("https://hono-remix-cloudflare-pages.pages.dev/");
+const client = hc<AppType>(import.meta.env.VITE_API_URL);
 
 export const loader = async () => {
   const res = await client.api.todos.$get();
