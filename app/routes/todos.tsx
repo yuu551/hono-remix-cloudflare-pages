@@ -84,7 +84,7 @@ const TodoItem = ({
   );
 };
 
-const Todo = () => {
+const Todos = () => {
   const todos = useLoaderData<typeof loader>();
 
   return (
@@ -113,4 +113,4 @@ const Todo = () => {
     </div>
   );
 };
-export default Todo;
+export default Todos;
