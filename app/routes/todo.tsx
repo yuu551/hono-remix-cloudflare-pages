@@ -38,7 +38,6 @@ function TodoItem({
     categoryColors[todo.category] || "bg-gray-100 text-gray-800";
 
   const handleCheckboxChange = async (checked: boolean) => {
-    console.log("test");
     const result = await client.api.todos[":id"].$put({
       json: {
         title: todo.text,
@@ -50,7 +49,6 @@ function TodoItem({
     });
     const updatedTodo = await result.json();
     setIsCompleted(updatedTodo.completed);
-    console.log(isCompleted);
   };
 
   return (
