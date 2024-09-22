@@ -1,16 +1,40 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { z } from "zod";
+import { zValidator } from "@hono/zod-validator";
 
 const app = new Hono();
 
+// カスタムZodスキーマ for YYYY-MM-DD形式の日付
+const dateSchema = z.string().refine(
+  (val) => {
+    return /^\d{4}-\d{2}-\d{2}$/.test(val) && !isNaN(Date.parse(val));
+  },
+  {
+    message: "Invalid date format. Use YYYY-MM-DD",
+  }
+);
+
+const TodoSchema = z.object({
+  userId: z.string().min(1),
+  title: z.string().min(1).max(100),
+  completed: z.boolean(),
+  dueDate: dateSchema.optional(),
+});
+
+const TodoUpdateSchema = TodoSchema.partial().omit({ userId: true });
+
 // すべてのルートにCORS設定を適用
-app.use('*', cors({
-    origin: '*', // すべてのオリジンを許可。必要に応じて特定のオリジンに制限できます
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization'],
-    exposeHeaders: ['Content-Length'],
-    maxAge: 600
-  }));
+app.use(
+  "*",
+  cors({
+    origin: "*", // すべてのオリジンを許可。必要に応じて特定のオリジンに制限できます
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowHeaders: ["Content-Type", "Authorization"],
+    exposeHeaders: ["Content-Length"],
+    maxAge: 600,
+  })
+);
 
 app.get("/api", (c) => c.json("Hello"));
 
@@ -62,8 +86,10 @@ const route = app
   .get("/api/todos", (c) => {
     return c.json(dummyTodos);
   })
-  .put("/api/todos", (c) => {
-    return c.json({ id: 4, completed: true });
+  .put("/api/todos/:id", zValidator("json", TodoUpdateSchema), async (c) => {
+    const id = c.req.param("id");
+    const validatedData = c.req.valid("json");
+    return c.json({ id: id, completed: !validatedData.completed });
   });
 
 export default app;

@@ -13,13 +13,11 @@ export const meta: MetaFunction = () => {
   return [{ title: "Todo My App" }];
 };
 
-const client = hc<AppType>(
-  "https://hono-remix-cloudflare-pages.pages.dev/"
-);
+const client = hc<AppType>("https://hono-remix-cloudflare-pages.pages.dev/");
 
 export const loader = async () => {
-    const res = await client.api.todos.$get();
-    return res.json();
+  const res = await client.api.todos.$get();
+  return res.json();
 };
 // カテゴリーに応じた色を定義
 const categoryColors: { [key: string]: string } = {
@@ -41,7 +39,15 @@ function TodoItem({
 
   const handleCheckboxChange = async (checked: boolean) => {
     console.log("test");
-    const result = await client.api.todos.$put();
+    const result = await client.api.todos[":id"].$put({
+      json: {
+        title: todo.text,
+        completed: todo.completed,
+      },
+      param: {
+        id: todo.id.toString(),
+      },
+    });
     const updatedTodo = await result.json();
     setIsCompleted(updatedTodo.completed);
     console.log(isCompleted);
