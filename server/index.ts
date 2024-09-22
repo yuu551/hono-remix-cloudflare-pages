@@ -3,14 +3,14 @@ import { cors } from "hono/cors";
 
 const app = new Hono();
 
-app.options("*", (c) => {
-  return new Response(null, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS,PUT,GET",
-    },
-  });
-});
+// すべてのルートにCORS設定を適用
+app.use('*', cors({
+    origin: '*', // すべてのオリジンを許可。必要に応じて特定のオリジンに制限できます
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    exposeHeaders: ['Content-Length'],
+    maxAge: 600
+  }));
 
 app.get("/api", (c) => c.json("Hello"));
 
