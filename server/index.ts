@@ -2,20 +2,14 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 const app = new Hono();
-app.use(
-  "*",
-  cors({
-    origin: "*",
-    allowHeaders: ["Content-Type", "Authorization"],
-    allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
-    exposeHeaders: ["Content-Length"],
-    maxAge: 600,
-    credentials: true,
-  })
-);
 
 app.options("*", (c) => {
-  return c.text("", 204);
+  return new Response(null, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS,PUT,GET",
+    },
+  });
 });
 
 app.get("/api", (c) => c.json("Hello"));
