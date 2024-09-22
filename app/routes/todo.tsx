@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
   return [{ title: "Todo My App" }];
 };
 
-const client = hc<AppType>("/");
+const client = hc<AppType>("https://a21dfc79.hono-remix-cloudflare-pages.pages.dev");
 
 export const loader = async () => {
   const res = await client.api.todos.$get();
