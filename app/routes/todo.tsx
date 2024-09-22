@@ -13,11 +13,13 @@ export const meta: MetaFunction = () => {
   return [{ title: "Todo My App" }];
 };
 
-const client = hc<AppType>(process.env.CF_PAGES_URL as string);
+const client = hc<AppType>(
+  "https://afe58046.hono-remix-cloudflare-pages.pages.dev/"
+);
 
 export const loader = async () => {
-  const res = await client.api.todos.$get();
-  return res.json();
+    const res = await client.api.todos.$get();
+    return res.json();
 };
 // カテゴリーに応じた色を定義
 const categoryColors: { [key: string]: string } = {
