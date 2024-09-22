@@ -42,7 +42,7 @@ function TodoItem({
     const result = await client.api.todos[":id"].$put({
       json: {
         title: todo.text,
-        completed: todo.completed,
+        completed: isCompleted,
       },
       param: {
         id: todo.id.toString(),
