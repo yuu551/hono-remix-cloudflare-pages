@@ -5,7 +5,7 @@ const app = new Hono();
 app.use(
   "*",
   cors({
-    origin: "https://0060f5fc.hono-remix-cloudflare-pages.pages.dev",
+    origin: "*",
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["POST", "GET", "OPTIONS", "PUT", "DELETE"],
     exposeHeaders: ["Content-Length"],
