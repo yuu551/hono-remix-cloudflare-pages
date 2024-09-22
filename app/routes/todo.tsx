@@ -13,8 +13,10 @@ export const meta: MetaFunction = () => {
   return [{ title: "Todo My App" }];
 };
 
+// HonoのRPC機能でClient作成
 const client = hc<AppType>(import.meta.env.VITE_API_URL);
 
+// 初回データフェッチ
 export const loader = async () => {
   const res = await client.api.todos.$get();
   return res.json();
@@ -28,11 +30,12 @@ const categoryColors: { [key: string]: string } = {
   社交: "bg-pink-100 text-pink-800",
 };
 
-function TodoItem({
+// TodoのCard部分
+const TodoItem = ({
   todo,
 }: {
   todo: Awaited<ReturnType<typeof loader>>[number];
-}) {
+}) => {
   const [isCompleted, setIsCompleted] = useState(todo.completed);
   const badgeColor =
     categoryColors[todo.category] || "bg-gray-100 text-gray-800";
@@ -79,11 +82,11 @@ function TodoItem({
       </CardContent>
     </Card>
   );
-}
+};
 
-export default function Todo() {
+const Todo = () => {
   const todos = useLoaderData<typeof loader>();
-  if (!todos) return;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white text-gray-800 p-4 shadow-sm">
@@ -109,4 +112,5 @@ export default function Todo() {
       </main>
     </div>
   );
-}
+};
+export default Todo;

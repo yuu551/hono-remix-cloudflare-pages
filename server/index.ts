@@ -15,14 +15,12 @@ const dateSchema = z.string().refine(
   }
 );
 
+// Todoのスキーマ
 const TodoSchema = z.object({
-  userId: z.string().min(1),
   title: z.string().min(1).max(100),
   completed: z.boolean(),
   dueDate: dateSchema.optional(),
 });
-
-const TodoUpdateSchema = TodoSchema.partial().omit({ userId: true });
 
 // すべてのルートにCORS設定を適用
 app.use(
@@ -38,6 +36,7 @@ app.use(
 
 app.get("/api", (c) => c.json("Hello"));
 
+// ダミーのTodo情報
 const dummyTodos = [
   {
     id: 1,
@@ -76,7 +75,7 @@ const dummyTodos = [
   },
 ];
 
-// 新しいエンドポイント: /api/todos
+
 const route = app
   .get("/api", (c) => {
     return c.json({
@@ -86,7 +85,7 @@ const route = app
   .get("/api/todos", (c) => {
     return c.json(dummyTodos);
   })
-  .put("/api/todos/:id", zValidator("json", TodoUpdateSchema), async (c) => {
+  .put("/api/todos/:id", zValidator("json", TodoSchema), async (c) => {
     const id = c.req.param("id");
     const validatedData = c.req.valid("json");
     return c.json({ id: id, completed: !validatedData.completed });
