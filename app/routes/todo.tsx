@@ -7,18 +7,19 @@ import { Badge } from "~/components/ui/badge"; // shadcn/uiのBadgeコンポー�
 import { PlusCircle } from "lucide-react"; // アイコンをインポート
 import { AppType } from "server/index";
 import { hc } from "hono/client";
-import { useState } from 'react';
-
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [{ title: "Todo My App" }];
 };
 
-const client = hc<AppType>("https://a21dfc79.hono-remix-cloudflare-pages.pages.dev");
+const client = hc<AppType>(
+  "https://a21dfc79.hono-remix-cloudflare-pages.pages.dev/"
+);
 
 export const loader = async () => {
-  const res = await client.api.todos.$get();
-  return res.json();
+    const res = await client.api.todos.$get();
+    return res.json();
 };
 // カテゴリーに応じた色を定義
 const categoryColors: { [key: string]: string } = {
@@ -78,7 +79,7 @@ function TodoItem({
 
 export default function Todo() {
   const todos = useLoaderData<typeof loader>();
-
+  if (!todos) return;
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white text-gray-800 p-4 shadow-sm">
