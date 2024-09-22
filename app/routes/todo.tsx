@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
 };
 
 const client = hc<AppType>(
-  "https://afe58046.hono-remix-cloudflare-pages.pages.dev/"
+  "https://hono-remix-cloudflare-pages.pages.dev/"
 );
 
 export const loader = async () => {
