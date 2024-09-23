@@ -1,10 +1,10 @@
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Card, CardContent } from "~/components/ui/card";
 import { Checkbox } from "~/components/ui/checkbox";
-import { Badge } from "~/components/ui/badge"; // shadcn/uiのBadgeコンポーネントを追加
-import { PlusCircle } from "lucide-react"; // アイコンをインポート
+import { Badge } from "~/components/ui/badge";
+import { PlusCircle } from "lucide-react"; 
 import { AppType } from "server/index";
 import { hc } from "hono/client";
 import { useState } from "react";

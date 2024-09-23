@@ -26,7 +26,7 @@ const TodoSchema = z.object({
 app.use(
   "*",
   cors({
-    origin: "*", // すべてのオリジンを許可。必要に応じて特定のオリジンに制限できます
+    origin: "*",
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowHeaders: ["Content-Type", "Authorization"],
     exposeHeaders: ["Content-Length"],
